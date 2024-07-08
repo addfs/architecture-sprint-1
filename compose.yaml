@@ -49,9 +49,10 @@ services:
     command: yarn test:microfrontend
     restart: 'no'
     environment:
-          CI: true
+          CI: 'true'
 
   frontend:
+#    working_dir: /app
     build:
       context: frontend
       dockerfile: ../Dockerfile.frontend
@@ -60,3 +61,11 @@ services:
     depends_on:
       backend:
         condition: service_healthy
+    environment:
+      PUBLIC_URL=/
+#      HOST_PROJECT_DIR: $PWD
+#      HOME: /app
+#    user: ${UID:-1000}:${GID:-1000}
+#    command: 'sh -c "yarn start"'
+    volumes:
+      - ./frontend:/app
