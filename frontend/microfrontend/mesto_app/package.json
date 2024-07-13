@@ -1,0 +1,63 @@
+{
+  "name": "web_canonicals_ru",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "^5.0.1",
+    "web-vitals": "^1.0.1"
+  },
+  "scripts": {
+    "start": "webpack serve --config build/webpack.config.js --env env=dev",
+    "build": "webpack --config build/webpack.config.js --env env=prod",
+    "test": "react-scripts test",
+    "test:microfrontend": "npx jest ./index.spec.js",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.24.7",
+    "@babel/plugin-transform-runtime": "^7.24.7",
+    "@babel/preset-env": "^7.24.7",
+    "@babel/preset-react": "^7.24.7",
+    "@babel/runtime": "^7.24.7",
+    "@playwright/test": "^1.45.0",
+    "@types/node": "^20.14.9",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "babel-loader": "^9.1.3",
+    "clean-webpack-plugin": "^4.0.0",
+    "dotenv": "^16.0.2",
+    "html-webpack-plugin": "^5.6.0",
+    "react-hot-loader": "^4.13.1",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.5.3",
+    "wait-port": "^1.1.0",
+    "webpack": "^5.92.1",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.4",
+    "webpack-merge": "^6.0.1"
+  }
+}
