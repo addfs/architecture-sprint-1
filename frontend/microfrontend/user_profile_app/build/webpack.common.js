@@ -56,6 +56,8 @@ module.exports = {
             },
             exposes: {
                 "./Profile": "./src/components/Profile",
+                "./HeaderAuth": "./src/components/HeaderAuth",
+                "./Auth": "./src/components/Auth",
                 "./Login": "./src/components/Login",
                 "./Register": "./src/components/Register",
             },

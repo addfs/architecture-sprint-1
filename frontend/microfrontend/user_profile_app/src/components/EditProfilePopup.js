@@ -1,6 +1,7 @@
 import React from 'react';
 import PopupWithForm from './PopupWithForm';
-// import { CurrentUserContext } from "shared_library";
+import { CurrentUserContext } from 'mesto/CurrentUserContext';
+import profileApi from '../utils/profileApi';
 
 function EditProfilePopup({ isOpen, onUpdateUser, onClose }) {
   const [name, setName] = React.useState('');
@@ -14,22 +15,35 @@ function EditProfilePopup({ isOpen, onUpdateUser, onClose }) {
     setDescription(e.target.value);
   }
 
-  // const currentUser = React.useContext(CurrentUserContext);
+  const currentUser = React.useContext(CurrentUserContext);
 
-  // React.useEffect(() => {
-  //   if (currentUser) {
-  //     setName(currentUser.name);
-  //     setDescription(currentUser.about);
-  //   }
-  // }, [currentUser]);
+  React.useEffect(() => {
+    if (currentUser) {
+      setName(currentUser.name);
+      setDescription(currentUser.about);
+    }
+  }, [currentUser]);
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    onUpdateUser({
+    handleEditProfile({
       name,
       about: description,
     });
+  }
+
+  function handleEditProfile(userUpdate) {
+    profileApi
+        .setUserInfo(userUpdate)
+        .then((newUserData) => {
+          const customEvent = new CustomEvent(
+              'userChanged', {detail: newUserData }
+          );
+          window.dispatchEvent(customEvent)
+          // closeAllPopups();
+        })
+        .catch((err) => console.log(err));
   }
 
   return (

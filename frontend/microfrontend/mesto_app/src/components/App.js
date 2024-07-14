@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, useHistory, Switch } from "react-router-dom";
+import {Route, useHistory, Switch} from "react-router-dom";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
@@ -12,21 +12,14 @@ import InfoTooltip from "./InfoTooltip";
 import ProtectedRoute from "./ProtectedRoute";
 import * as auth from "../utils/auth.js";
 
-const Login = React.lazy(() => import('profile/Login').catch(() => {
-  return { default: () => <>Component is not available!</> };
-}));
-
-const Register = React.lazy(() => import('profile/Register').catch(() => {
-  return { default: () => <>Component is not available!</> };
+const Auth = React.lazy(() => import('profile/Auth').catch(() => {
+  return {default: () => <>Component is not available!</>};
 }));
 
 
 function App() {
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
-    React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
-    React.useState(false);
+
   const [selectedCard, setSelectedCard] = React.useState(null);
   const [cards, setCards] = React.useState([]);
 
@@ -42,80 +35,54 @@ function App() {
 
   const history = useHistory();
 
+  const handleLogin = (event) => {
+    const detail = event.detail
+    setIsLoggedIn(detail.isLoggedIn)
+    console.log('set Logged', detail.isLoggedIn)
+    if (detail.email) {
+      setEmail(detail.email)
+    }
+  };
+
+  const handleUserChanged = (event) => {
+    const detail = event.detail
+    setCurrentUser(detail)
+  };
+
+  React.useEffect(() => {
+    window.addEventListener("userLogged", handleLogin);
+    window.addEventListener("userChanged", handleUserChanged);
+    return () => {
+      window.removeEventListener("userLogged", handleLogin);
+      window.removeEventListener("userChanged", handleUserChanged);
+    };
+  }, [handleLogin, handleUserChanged])
+
 
   // Запрос к API за информацией о пользователе и массиве карточек выполняется единожды, при монтировании.
   React.useEffect(() => {
     api
       .getAppInfo()
       .then(([cardData, userData]) => {
-        console.warn(userData)
         setCurrentUser(userData);
         setCards(cardData);
       })
       .catch((err) => console.log(err));
   }, []);
 
-  // при монтировании App описан эффект, проверяющий наличие токена и его валидности
-  React.useEffect(() => {
-    const token = localStorage.getItem("jwt");
-    if (token) {
-      auth
-        .checkToken(token)
-        .then((res) => {
-          console.warn(res);
-          setEmail(res.data.email);
-          setIsLoggedIn(true);
-          history.push("/");
-        })
-        .catch((err) => {
-          localStorage.removeItem("jwt");
-          console.log(err);
-        });
-    }
-  }, [history]);
-
-  function handleEditProfileClick() {
-    setIsEditProfilePopupOpen(true);
-  }
-
   function handleAddPlaceClick() {
     setIsAddPlacePopupOpen(true);
   }
 
-  function handleEditAvatarClick() {
-    setIsEditAvatarPopupOpen(true);
-  }
 
   function closeAllPopups() {
-    setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
-    setIsEditAvatarPopupOpen(false);
     setIsInfoToolTipOpen(false);
     setSelectedCard(null);
   }
 
   function handleCardClick(card) {
     setSelectedCard(card);
-  }
-
-  function handleUpdateUser(userUpdate) {
-    api
-      .setUserInfo(userUpdate)
-      .then((newUserData) => {
-        setCurrentUser(newUserData);
-        closeAllPopups();
-      })
-      .catch((err) => console.log(err));
-  }
-
-  function handleUpdateAvatar(avatarUpdate) {
-    api
-      .setUserAvatar(avatarUpdate)
-      .then((newUserData) => {
-        setCurrentUser(newUserData);
-        closeAllPopups();
-      })
-      .catch((err) => console.log(err));
   }
 
   function handleCardLike(card) {
@@ -163,63 +130,33 @@ function App() {
       });
   }
 
-
-
-  function onSignOut() {
-    // при вызове обработчика onSignOut происходит удаление jwt
-    localStorage.removeItem("jwt");
-    setIsLoggedIn(false);
-    // После успешного вызова обработчика onSignOut происходит редирект на /signin
-    history.push("/signin");
-  }
-
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page__content">
-        <Header email={email} onSignOut={onSignOut} />
+        <Header email={email} />
         <Switch>
           <ProtectedRoute
             exact
             path="/"
             component={Main}
             cards={cards}
-            onEditProfile={handleEditProfileClick}
             onAddPlace={handleAddPlaceClick}
-            onEditAvatar={handleEditAvatarClick}
             onCardClick={handleCardClick}
             onCardLike={handleCardLike}
             onCardDelete={handleCardDelete}
             loggedIn={isLoggedIn}
           />
-
-          <Route path="/signup">
-            <React.Suspense fallback={'Загрузка ...' }>
-              <Register />
-            </React.Suspense>
-          </Route>
-          <Route path="/signin">
-            <React.Suspense fallback={'Загрузка ...' }>
-              <Login />
-            </React.Suspense>
-          </Route>
+          <React.Suspense fallback={'Загрузка ...'}>
+            <Auth />
+          </React.Suspense>
         </Switch>
         <Footer />
-      {/*  <EditProfilePopup
-          isOpen={isEditProfilePopupOpen}
-          onUpdateUser={handleUpdateUser}
-          onClose={closeAllPopups}
-        />*/}
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onAddPlace={handleAddPlaceSubmit}
           onClose={closeAllPopups}
         />
         <PopupWithForm title="Вы уверены?" name="remove-card" buttonText="Да" />
-       {/* <EditAvatarPopup
-          isOpen={isEditAvatarPopupOpen}
-          onUpdateAvatar={handleUpdateAvatar}
-          onClose={closeAllPopups}
-        />*/}
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
         <InfoTooltip
           isOpen={isInfoToolTipOpen}

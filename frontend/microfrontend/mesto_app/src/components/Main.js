@@ -1,24 +1,16 @@
 import React from 'react';
 import Card from './Card';
-import { CurrentUserContext } from '../contexts/CurrentUserContext'
 
-function Main({ cards, onEditProfile, onAddPlace, onEditAvatar, onCardClick, onCardLike, onCardDelete }) {
-  const currentUser = React.useContext(CurrentUserContext);
-  console.log(currentUser)
+const Profile = React.lazy(() => import('profile/Profile').catch(() => {
+    return {default: () => <>Component is not available!</>};
+}));
 
-  const imageStyle = { backgroundImage: `url(${currentUser.avatar})` };
-
+function Main({ cards, onAddPlace, onCardClick, onCardLike, onCardDelete }) {
   return (
     <main className="content">
-      {/*<section className="profile page__section">
-        <div className="profile__image" onClick={onEditAvatar} style={imageStyle}></div>
-        <div className="profile__info">
-          <h1 className="profile__title">{currentUser.name}</h1>
-          <button className="profile__edit-button" type="button" onClick={onEditProfile}></button>
-          <p className="profile__description">{currentUser.about}</p>
-        </div>
-        <button className="profile__add-button" type="button" onClick={onAddPlace}></button>
-      </section>*/}
+        <React.Suspense fallback={'Загрузка ...'}>
+            <Profile onAddPlace={onAddPlace}  />
+        </React.Suspense>
       <section className="places page__section">
         <ul className="places__list">
           {cards.map((card) => (

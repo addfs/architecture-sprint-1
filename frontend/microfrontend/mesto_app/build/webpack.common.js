@@ -17,6 +17,7 @@ module.exports = {
         static: path.resolve(__dirname, "..", "./dist"),
         hot: false,
         liveReload: true,
+        historyApiFallback: true,
     },
     module: {
         rules: [
@@ -57,7 +58,7 @@ module.exports = {
             },
             exposes: {
                 "./App": "./src/components/App",
-                './Service': './src/components/Service',
+                './CurrentUserContext': './src/contexts/CurrentUserContext',
             },
             shared: [
                 {
@@ -71,7 +72,7 @@ module.exports = {
                         requiredVersion: deps["react-dom"],
                     },
                 },
-                './src/components/Service',
+                './src/contexts/CurrentUserContext',
             ],
         }),
         new HtmlWebpackPlugin({
