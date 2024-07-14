@@ -6,7 +6,7 @@ import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/api";
-import { CurrentUserContext } from "shared_library";
+import { ServiceProvider } from "./Service";
 import AddPlacePopup from "./AddPlacePopup";
 import InfoTooltip from "./InfoTooltip";
 import ProtectedRoute from "./ProtectedRoute";
@@ -175,7 +175,7 @@ function App() {
 
   return (
     // В компонент App внедрён контекст через CurrentUserContext.Provider
-    <CurrentUserContext.Provider value={currentUser}>
+    <ServiceProvider value={currentUser}>
       <div className="page__content">
         <Header email={email} onSignOut={onSignOut} />
         <Switch>
@@ -225,7 +225,7 @@ function App() {
           status={tooltipStatus}
         />
       </div>
-    </CurrentUserContext.Provider>
+    </ServiceProvider>
   );
 }
 

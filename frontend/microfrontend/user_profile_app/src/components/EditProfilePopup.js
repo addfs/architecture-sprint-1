@@ -1,6 +1,6 @@
 import React from 'react';
-import PopupWithForm from '../../../mesto_app/src/components/PopupWithForm';
-import { CurrentUserContext } from "shared_library";
+import PopupWithForm from './PopupWithForm';
+// import { CurrentUserContext } from "shared_library";
 
 function EditProfilePopup({ isOpen, onUpdateUser, onClose }) {
   const [name, setName] = React.useState('');
@@ -14,14 +14,14 @@ function EditProfilePopup({ isOpen, onUpdateUser, onClose }) {
     setDescription(e.target.value);
   }
 
-  const currentUser = React.useContext(CurrentUserContext);
+  // const currentUser = React.useContext(CurrentUserContext);
 
-  React.useEffect(() => {
-    if (currentUser) {
-      setName(currentUser.name);
-      setDescription(currentUser.about);
-    }
-  }, [currentUser]);
+  // React.useEffect(() => {
+  //   if (currentUser) {
+  //     setName(currentUser.name);
+  //     setDescription(currentUser.about);
+  //   }
+  // }, [currentUser]);
 
   function handleSubmit(e) {
     e.preventDefault();

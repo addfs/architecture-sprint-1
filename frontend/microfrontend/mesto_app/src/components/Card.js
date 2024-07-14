@@ -1,5 +1,5 @@
 import React from 'react';
-import { CurrentUserContext } from "shared_library";
+import { useServiceContext } from './Service';
 
 function Card({ card, onCardClick, onCardLike, onCardDelete }) {
   const cardStyle = { backgroundImage: `url(${card.link})` };
@@ -16,7 +16,7 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
     onCardDelete(card);
   }
 
-  const currentUser = React.useContext(CurrentUserContext);
+  const currentUser = useServiceContext().currentUser;
 
   const isLiked = card.likes.some(i => i._id === currentUser._id);
   const cardLikeButtonClassName = `card__like-button ${isLiked && 'card__like-button_is-active'}`;

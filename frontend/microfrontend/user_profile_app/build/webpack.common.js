@@ -1,7 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const { ModuleFederationPlugin } = require("webpack").container;
+const {CleanWebpackPlugin} = require("clean-webpack-plugin");
+const {ModuleFederationPlugin} = require("webpack").container;
 const HotModuleReplacementPlugin = require("webpack").HotModuleReplacementPlugin;
 const deps = require("../package.json").dependencies;
 
@@ -9,13 +9,8 @@ const deps = require("../package.json").dependencies;
 module.exports = {
     entry: "./src/index",
     output: {
-        path: path.join(__dirname, "/dist"),
-        filename: "userProfileApp-bundle.js"
-    },
-    resolve: {
-        alias: {
-            'shared_library': path.resolve(__dirname, '../../shared_library/src/'),
-        },
+        publicPath: 'auto',
+        chunkFilename: '[id].[contenthash].js',
     },
     devServer: {
         port: 3002,
@@ -54,27 +49,27 @@ module.exports = {
         new CleanWebpackPlugin(),
         new HotModuleReplacementPlugin(),
         new ModuleFederationPlugin({
-            name: "user_profile_app",
-            library: { type: "var", name: "user_profile_app" },
+            name: "profile",
             filename: "remoteEntry.js",
+            remotes: {
+                mesto: 'mesto@http://localhost:3000/remoteEntry.js',
+            },
             exposes: {
                 "./App": "./src/components/App",
             },
-            shared: {
-                ...deps,
-                react: {
-                    singleton: true,
-                    requiredVersion: deps.react,
+            shared: [
+                {
+                    ...deps,
+                    react: {
+                        singleton: true,
+                        requiredVersion: deps.react,
+                    },
+                    "react-dom": {
+                        singleton: true,
+                        requiredVersion: deps["react-dom"],
+                    },
                 },
-                "react-dom": {
-                    singleton: true,
-                    requiredVersion: deps["react-dom"],
-                },
-                'shared_library': {
-                    import: 'shared_library',
-                    requiredVersion: require('../../../shared_library/package.json').version,
-                },
-            },
+            ],
         }),
         new HtmlWebpackPlugin({
             template: "./public/index.html",

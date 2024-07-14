@@ -64,7 +64,6 @@ services:
       PUBLIC_URL: /
     volumes:
       - ./frontend/microfrontend/mesto_app:/app
-      - ./frontend/shared_library:/shared_library
 
 
   frontend-user-profile-app:
@@ -80,4 +79,3 @@ services:
       PUBLIC_URL: /
     volumes:
       - ./frontend/microfrontend/user_profile_app:/app
-      - ./frontend/shared_library:/shared_library

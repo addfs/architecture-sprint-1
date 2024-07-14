@@ -9,13 +9,8 @@ const deps = require("../package.json").dependencies;
 module.exports = {
     entry: "./src/index",
     output: {
-        path: path.join(__dirname, "/dist"),
-        filename: "mestoApp-bundle.js"
-    },
-    resolve: {
-        alias: {
-            'shared_library': path.resolve(__dirname, '../../shared_library/src/'),
-        },
+        publicPath: 'auto',
+        chunkFilename: '[id].[contenthash].js',
     },
     devServer: {
         port: 3000,
@@ -54,30 +49,31 @@ module.exports = {
         new CleanWebpackPlugin(),
         new HotModuleReplacementPlugin(),
         new ModuleFederationPlugin({
-            name: "mesto_app",
-            library: { type: "var", name: "mesto_app" },
+            name: "mesto",
             filename: "remoteEntry.js",
             remotes: {
-                user_profile_app: "user_profile_app",
+                profile: 'profile@http://localhost:3002/remoteEntry.js',
+                mesto: 'mesto@http://localhost:3000/remoteEntry.js',
             },
             exposes: {
                 "./App": "./src/components/App",
+                './Service': './src/components/Service',
+
             },
-            shared: {
-                ...deps,
-                react: {
-                    singleton: true,
-                    requiredVersion: deps.react,
+            shared: [
+                {
+                    ...deps,
+                    react: {
+                        singleton: true,
+                        requiredVersion: deps.react,
+                    },
+                    "react-dom": {
+                        singleton: true,
+                        requiredVersion: deps["react-dom"],
+                    },
                 },
-                "react-dom": {
-                    singleton: true,
-                    requiredVersion: deps["react-dom"],
-                },
-                'shared_library': {
-                    import: 'shared_library',
-                    requiredVersion: require('../../../shared_library/package.json').version,
-                },
-            },
+                './src/components/Service',
+            ],
         }),
         new HtmlWebpackPlugin({
             template: "./public/index.html",

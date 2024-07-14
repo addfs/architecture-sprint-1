@@ -1,10 +1,12 @@
 {
-  "name": "user_profile_app",
+  "name": "profile",
   "version": "1.0.0",
   "private": true,
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.24.1",
+    "react-scripts": "^5.0.1"
   },
   "main": "index.js",
   "license": "MIT",
