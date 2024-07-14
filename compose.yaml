@@ -6,7 +6,7 @@ services:
     logging:
       driver: none
     healthcheck:
-      test:  echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
       interval: 10s
       timeout: 10s
       retries: 5
@@ -49,7 +49,7 @@ services:
     command: yarn test:microfrontend
     restart: 'no'
     environment:
-          CI: 'true'
+      CI: 'true'
 
   frontend-mesto-app:
     build:
@@ -79,3 +79,18 @@ services:
       PUBLIC_URL: /
     volumes:
       - ./frontend/microfrontend/user_profile_app:/app
+
+
+  frontend-auth-app:
+    build:
+      context: frontend/microfrontend/auth_app
+      dockerfile: Dockerfile
+    ports:
+      - 3003:3003
+    depends_on:
+      backend:
+        condition: service_healthy
+    environment:
+      PUBLIC_URL: /
+    volumes:
+      - ./frontend/microfrontend/auth_app:/app

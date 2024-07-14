@@ -3,9 +3,9 @@ import {Route, Switch, useHistory} from "react-router-dom";
 import * as auth from "../utils/auth";
 import Register from "./Register";
 import Login from "./Login";
-// import InfoTooltip from "./InfoTooltip";
+import InfoTooltip from "./InfoTooltip";
 
-function Auth({onChange}) {
+function Auth() {
     const history = useHistory();
     const [tooltipStatus, setTooltipStatus] = React.useState("");
 
@@ -17,15 +17,10 @@ function Auth({onChange}) {
             auth
                 .checkToken(token)
                 .then((res) => {
-                    // if (onChange !== undefined) {
-                    //     onChange(res.data.email);
-                    // }
-
                     const customEvent = new CustomEvent(
                         'userLogged', {detail: { email: res.data.email, isLoggedIn: true } }
                     );
                     window.dispatchEvent(customEvent)
-                    console.log('check jwt')
 
                     history.push("/");
                 })
@@ -55,7 +50,10 @@ function Auth({onChange}) {
         auth
             .login(email, password)
             .then((res) => {
-                onChange(email);
+                const customEvent = new CustomEvent(
+                    'userLogged', {detail: { email: email, isLoggedIn: true } }
+                );
+                window.dispatchEvent(customEvent)
                 history.push("/");
             })
             .catch((err) => {
@@ -65,7 +63,7 @@ function Auth({onChange}) {
             });
     }
 
-    function closePopup() {
+    function closeAllPopups() {
         setIsInfoToolTipOpen(false);
     }
 
@@ -79,11 +77,11 @@ function Auth({onChange}) {
                     <Login onLogin={onLogin}/>
                 </Route>
             </Switch>
-           {/* <InfoTooltip
+            <InfoTooltip
                 isOpen={isInfoToolTipOpen}
+                onClose={closeAllPopups}
                 status={tooltipStatus}
-                onClose={closePopup}
-            />*/}
+            />
         </div>
     )
 }

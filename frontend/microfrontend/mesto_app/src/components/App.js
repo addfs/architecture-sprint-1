@@ -8,11 +8,9 @@ import ImagePopup from "./ImagePopup";
 import api from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import AddPlacePopup from "./AddPlacePopup";
-import InfoTooltip from "./InfoTooltip";
 import ProtectedRoute from "./ProtectedRoute";
-import * as auth from "../utils/auth.js";
 
-const Auth = React.lazy(() => import('profile/Auth').catch(() => {
+const Auth = React.lazy(() => import('auth/Auth').catch(() => {
   return {default: () => <>Component is not available!</>};
 }));
 
@@ -26,19 +24,13 @@ function App() {
   // В корневом компоненте App создана стейт-переменная currentUser. Она используется в качестве значения для провайдера контекста.
   const [currentUser, setCurrentUser] = React.useState({});
 
-  const [isInfoToolTipOpen, setIsInfoToolTipOpen] = React.useState(false);
-  const [tooltipStatus, setTooltipStatus] = React.useState("");
-
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   //В компоненты добавлены новые стейт-переменные: email — в компонент App
   const [email, setEmail] = React.useState("");
 
-  const history = useHistory();
-
   const handleLogin = (event) => {
     const detail = event.detail
     setIsLoggedIn(detail.isLoggedIn)
-    console.log('set Logged', detail.isLoggedIn)
     if (detail.email) {
       setEmail(detail.email)
     }
@@ -77,7 +69,6 @@ function App() {
 
   function closeAllPopups() {
     setIsAddPlacePopupOpen(false);
-    setIsInfoToolTipOpen(false);
     setSelectedCard(null);
   }
 
@@ -116,20 +107,6 @@ function App() {
       .catch((err) => console.log(err));
   }
 
-  function onRegister({ email, password }) {
-    auth
-      .register(email, password)
-      .then((res) => {
-        setTooltipStatus("success");
-        setIsInfoToolTipOpen(true);
-        history.push("/signin");
-      })
-      .catch((err) => {
-        setTooltipStatus("fail");
-        setIsInfoToolTipOpen(true);
-      });
-  }
-
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page__content">
@@ -158,11 +135,6 @@ function App() {
         />
         <PopupWithForm title="Вы уверены?" name="remove-card" buttonText="Да" />
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-        <InfoTooltip
-          isOpen={isInfoToolTipOpen}
-          onClose={closeAllPopups}
-          status={tooltipStatus}
-        />
       </div>
     </CurrentUserContext.Provider>
   );

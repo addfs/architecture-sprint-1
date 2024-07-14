@@ -1,7 +1,6 @@
 import React from 'react';
 import PopupWithForm from './PopupWithForm';
 import { CurrentUserContext } from 'mesto/CurrentUserContext';
-import profileApi from '../utils/profileApi';
 
 function EditProfilePopup({ isOpen, onUpdateUser, onClose }) {
   const [name, setName] = React.useState('');
@@ -27,23 +26,10 @@ function EditProfilePopup({ isOpen, onUpdateUser, onClose }) {
   function handleSubmit(e) {
     e.preventDefault();
 
-    handleEditProfile({
+    onUpdateUser({
       name,
       about: description,
     });
-  }
-
-  function handleEditProfile(userUpdate) {
-    profileApi
-        .setUserInfo(userUpdate)
-        .then((newUserData) => {
-          const customEvent = new CustomEvent(
-              'userChanged', {detail: newUserData }
-          );
-          window.dispatchEvent(customEvent)
-          // closeAllPopups();
-        })
-        .catch((err) => console.log(err));
   }
 
   return (

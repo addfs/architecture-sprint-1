@@ -3,6 +3,7 @@ import React from 'react';
 import {CurrentUserContext} from "mesto/CurrentUserContext";
 import EditAvatarPopup from "./EditAvatarPopup";
 import EditProfilePopup from "./EditProfilePopup";
+import profileApi from "../utils/profileApi";
 
 export default function Profile({onAddPlace}) {
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
@@ -20,6 +21,32 @@ export default function Profile({onAddPlace}) {
     const currentUser = React.useContext(CurrentUserContext);
     const imageStyle = {backgroundImage: `url(${currentUser.avatar})`};
 
+    function handleUpdateAvatar(avatarUpdate) {
+        profileApi
+            .setUserAvatar(avatarUpdate)
+            .then((newUserData) => {
+                const customEvent = new CustomEvent(
+                    'userChanged', {detail: newUserData }
+                );
+                window.dispatchEvent(customEvent)
+                setIsEditAvatarPopupOpen(false)
+            })
+            .catch((err) => console.log(err));
+    }
+
+    function handleEditProfile(userUpdate) {
+        profileApi
+            .setUserInfo(userUpdate)
+            .then((newUserData) => {
+                const customEvent = new CustomEvent(
+                    'userChanged', {detail: newUserData }
+                );
+                window.dispatchEvent(customEvent)
+                setIsEditProfilePopupOpen(false)
+            })
+            .catch((err) => console.log(err));
+    }
+
     return (
         <section className="profile page__section">
             <div className="profile__image" onClick={onEditAvatar} style={imageStyle}></div>
@@ -31,13 +58,14 @@ export default function Profile({onAddPlace}) {
             <button className="profile__add-button" type="button" onClick={onAddPlace}></button>
             <EditAvatarPopup
                 isOpen={isEditAvatarPopupOpen}
+                onUpdateAvatar={handleUpdateAvatar}
                 onClose={() => setIsEditAvatarPopupOpen(false)}
             />
             <EditProfilePopup
                 isOpen={isEditProfilePopupOpen}
+                onUpdateUser={handleEditProfile}
                 onClose={() => setIsEditProfilePopupOpen(false)}
             />
         </section>
-
     );
 }

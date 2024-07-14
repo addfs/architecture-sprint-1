@@ -1,29 +1,15 @@
 import React from 'react';
 import PopupWithForm from './PopupWithForm';
-import profileApi from '../utils/profileApi';
 
-function EditAvatarPopup({isOpen, onClose}) {
+function EditAvatarPopup({isOpen, onUpdateAvatar, onClose}) {
     const inputRef = React.useRef();
 
     function handleSubmit(e) {
         e.preventDefault();
 
-        handleUpdateAvatar({
+        onUpdateAvatar({
             avatar: inputRef.current.value,
         });
-    }
-
-    function handleUpdateAvatar(avatarUpdate) {
-        profileApi
-            .setUserAvatar(avatarUpdate)
-            .then((newUserData) => {
-                const customEvent = new CustomEvent(
-                    'userChanged', {detail: newUserData }
-                );
-                window.dispatchEvent(customEvent)
-                // closeAllPopups();
-            })
-            .catch((err) => console.log(err));
     }
 
     return (

@@ -13,7 +13,7 @@ module.exports = {
         chunkFilename: '[id].[contenthash].js',
     },
     devServer: {
-        port: 3002,
+        port: 3003,
         static: path.resolve(__dirname, "..", "./dist"),
         hot: false,
         liveReload: true,
@@ -49,13 +49,16 @@ module.exports = {
         new CleanWebpackPlugin(),
         new HotModuleReplacementPlugin(),
         new ModuleFederationPlugin({
-            name: "profile",
+            name: "auth",
             filename: "remoteEntry.js",
             remotes: {
                 mesto: 'mesto@http://localhost:3000/remoteEntry.js',
             },
             exposes: {
-                "./Profile": "./src/components/Profile",
+                "./HeaderAuth": "./src/components/HeaderAuth",
+                "./Auth": "./src/components/Auth",
+                "./Login": "./src/components/Login",
+                "./Register": "./src/components/Register",
             },
             shared: [
                 {

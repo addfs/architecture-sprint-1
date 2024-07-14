@@ -5,12 +5,12 @@ import * as auth from "../utils/auth.js";
 import '../blocks/login/login.css';
 import '../blocks/auth-form/auth-form.css';
 
-function Login() {
+function Login({onLogin}) {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const history = useHistory();
 
-    function onLogin({email, password}) {
+/*    function onLogin({email, password}) {
         auth
             .login(email, password)
             .then((res) => {
@@ -24,7 +24,7 @@ function Login() {
                 // setTooltipStatus("fail");
                 // setIsInfoToolTipOpen(true);
             });
-    }
+    }*/
 
     function handleSubmit(e) {
         e.preventDefault();
