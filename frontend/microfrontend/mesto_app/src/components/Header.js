@@ -10,7 +10,7 @@ function Header ({onSignOut, email }) {
   return (
     <header className="header page__section">
       <img src={logoPath} alt="Логотип проекта Mesto" className="logo header__logo" />
-      <Route exact path="/">
+     {/* <Route exact path="/">
         <div className="header__wrapper">
           <p className="header__user">{ email }</p>
           <button className="header__logout" onClick={handleSignOut}>Выйти</button>
@@ -21,7 +21,7 @@ function Header ({onSignOut, email }) {
       </Route>
       <Route path="/signin">
         <Link className="header__auth-link" to="signup">Регистрация</Link>
-      </Route>
+      </Route>*/}
     </header>
   )
 }

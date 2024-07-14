@@ -14,11 +14,11 @@ module.exports = {
     },
     resolve: {
         alias: {
-            'library-app': path.resolve(__dirname, '../../library_app/src/'),
+            'shared_library': path.resolve(__dirname, '../../shared_library/src/'),
         },
     },
     devServer: {
-        port: 3001,
+        port: 3002,
         static: path.resolve(__dirname, "..", "./dist"),
         hot: false,
         liveReload: true,
@@ -78,7 +78,6 @@ module.exports = {
         }),
         new HtmlWebpackPlugin({
             template: "./public/index.html",
-            favicon: './public/favicon.ico'
         }),
     ],
 };

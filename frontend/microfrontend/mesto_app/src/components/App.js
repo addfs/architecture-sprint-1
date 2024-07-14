@@ -7,11 +7,7 @@ import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/api";
 import { CurrentUserContext } from "shared_library";
-import EditProfilePopup from "./EditProfilePopup";
-import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
-import Register from "./Register";
-import Login from "./Login";
 import InfoTooltip from "./InfoTooltip";
 import ProtectedRoute from "./ProtectedRoute";
 import * as auth from "../utils/auth.js";
@@ -199,29 +195,29 @@ function App() {
           />
           {/*Роут /signup и /signin не является защищёнными, т.е оборачивать их в HOC ProtectedRoute не нужно.*/}
           <Route path="/signup">
-            <Register onRegister={onRegister} />
+            {/*<Register onRegister={onRegister} />*/}
           </Route>
           <Route path="/signin">
-            <Login onLogin={onLogin} />
+            {/*<Login onLogin={onLogin} />*/}
           </Route>
         </Switch>
         <Footer />
-        <EditProfilePopup
+      {/*  <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onUpdateUser={handleUpdateUser}
           onClose={closeAllPopups}
-        />
+        />*/}
         <AddPlacePopup
           isOpen={isAddPlacePopupOpen}
           onAddPlace={handleAddPlaceSubmit}
           onClose={closeAllPopups}
         />
         <PopupWithForm title="Вы уверены?" name="remove-card" buttonText="Да" />
-        <EditAvatarPopup
+       {/* <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
           onUpdateAvatar={handleUpdateAvatar}
           onClose={closeAllPopups}
-        />
+        />*/}
         <ImagePopup card={selectedCard} onClose={closeAllPopups} />
         <InfoTooltip
           isOpen={isInfoToolTipOpen}

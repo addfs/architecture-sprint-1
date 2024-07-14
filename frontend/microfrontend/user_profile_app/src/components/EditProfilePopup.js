@@ -1,5 +1,5 @@
 import React from 'react';
-import PopupWithForm from './PopupWithForm';
+import PopupWithForm from '../../../mesto_app/src/components/PopupWithForm';
 import { CurrentUserContext } from "shared_library";
 
 function EditProfilePopup({ isOpen, onUpdateUser, onClose }) {

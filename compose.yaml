@@ -72,11 +72,12 @@ services:
       context: frontend/microfrontend/user_profile_app
       dockerfile: Dockerfile
     ports:
-      - 3001:3001
+      - 3002:3002
     depends_on:
       backend:
         condition: service_healthy
     environment:
       PUBLIC_URL: /
     volumes:
-      - ./frontend:/app
+      - ./frontend/microfrontend/user_profile_app:/app
+      - ./frontend/shared_library:/shared_library
