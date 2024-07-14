@@ -6,11 +6,20 @@ import Footer from "./Footer";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import api from "../utils/api";
-import { ServiceProvider } from "./Service";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import AddPlacePopup from "./AddPlacePopup";
 import InfoTooltip from "./InfoTooltip";
 import ProtectedRoute from "./ProtectedRoute";
 import * as auth from "../utils/auth.js";
+
+const Login = React.lazy(() => import('profile/Login').catch(() => {
+  return { default: () => <>Component is not available!</> };
+}));
+
+const Register = React.lazy(() => import('profile/Register').catch(() => {
+  return { default: () => <>Component is not available!</> };
+}));
+
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] =
@@ -33,11 +42,13 @@ function App() {
 
   const history = useHistory();
 
+
   // Запрос к API за информацией о пользователе и массиве карточек выполняется единожды, при монтировании.
   React.useEffect(() => {
     api
       .getAppInfo()
       .then(([cardData, userData]) => {
+        console.warn(userData)
         setCurrentUser(userData);
         setCards(cardData);
       })
@@ -51,6 +62,7 @@ function App() {
       auth
         .checkToken(token)
         .then((res) => {
+          console.warn(res);
           setEmail(res.data.email);
           setIsLoggedIn(true);
           history.push("/");
@@ -151,19 +163,7 @@ function App() {
       });
   }
 
-  function onLogin({ email, password }) {
-    auth
-      .login(email, password)
-      .then((res) => {
-        setIsLoggedIn(true);
-        setEmail(email);
-        history.push("/");
-      })
-      .catch((err) => {
-        setTooltipStatus("fail");
-        setIsInfoToolTipOpen(true);
-      });
-  }
+
 
   function onSignOut() {
     // при вызове обработчика onSignOut происходит удаление jwt
@@ -174,12 +174,10 @@ function App() {
   }
 
   return (
-    // В компонент App внедрён контекст через CurrentUserContext.Provider
-    <ServiceProvider value={currentUser}>
+    <CurrentUserContext.Provider value={currentUser}>
       <div className="page__content">
         <Header email={email} onSignOut={onSignOut} />
         <Switch>
-          {/*Роут / защищён HOC-компонентом ProtectedRoute*/}
           <ProtectedRoute
             exact
             path="/"
@@ -193,12 +191,16 @@ function App() {
             onCardDelete={handleCardDelete}
             loggedIn={isLoggedIn}
           />
-          {/*Роут /signup и /signin не является защищёнными, т.е оборачивать их в HOC ProtectedRoute не нужно.*/}
+
           <Route path="/signup">
-            {/*<Register onRegister={onRegister} />*/}
+            <React.Suspense fallback={'Загрузка ...' }>
+              <Register />
+            </React.Suspense>
           </Route>
           <Route path="/signin">
-            {/*<Login onLogin={onLogin} />*/}
+            <React.Suspense fallback={'Загрузка ...' }>
+              <Login />
+            </React.Suspense>
           </Route>
         </Switch>
         <Footer />
@@ -225,7 +227,7 @@ function App() {
           status={tooltipStatus}
         />
       </div>
-    </ServiceProvider>
+    </CurrentUserContext.Provider>
   );
 }
 

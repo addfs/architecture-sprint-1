@@ -58,7 +58,6 @@ module.exports = {
             exposes: {
                 "./App": "./src/components/App",
                 './Service': './src/components/Service',
-
             },
             shared: [
                 {

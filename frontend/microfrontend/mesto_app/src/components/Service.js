@@ -1,9 +1,10 @@
 import React from 'react';
 
+/*
 export const Context = React.createContext(undefined);
 
 function useService() {
-    const [service, setService] = React.useState({ title: '' });
+    const [service, setService] = React.useState({  });
 
     return {
         ...service,
@@ -28,3 +29,4 @@ export function ServiceProvider(props) {
     return <Context.Provider value={value}>{props.children}</Context.Provider>;
 }
 
+*/

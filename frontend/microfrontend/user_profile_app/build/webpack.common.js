@@ -55,7 +55,9 @@ module.exports = {
                 mesto: 'mesto@http://localhost:3000/remoteEntry.js',
             },
             exposes: {
-                "./App": "./src/components/App",
+                "./Profile": "./src/components/Profile",
+                "./Login": "./src/components/Login",
+                "./Register": "./src/components/Register",
             },
             shared: [
                 {

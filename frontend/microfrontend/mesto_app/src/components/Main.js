@@ -1,10 +1,10 @@
 import React from 'react';
 import Card from './Card';
-import {useServiceContext} from "./Service";
+import { CurrentUserContext } from '../contexts/CurrentUserContext'
 
 function Main({ cards, onEditProfile, onAddPlace, onEditAvatar, onCardClick, onCardLike, onCardDelete }) {
-  // const currentUser = React.useContext(CurrentUserContext);
-  const currentUser = useServiceContext().currentUser;
+  const currentUser = React.useContext(CurrentUserContext);
+  console.log(currentUser)
 
   const imageStyle = { backgroundImage: `url(${currentUser.avatar})` };
 
