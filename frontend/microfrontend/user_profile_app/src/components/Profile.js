@@ -5,6 +5,8 @@ import EditAvatarPopup from "./EditAvatarPopup";
 import EditProfilePopup from "./EditProfilePopup";
 import profileApi from "../utils/profileApi";
 
+import '../index.css';
+
 export default function Profile({onAddPlace}) {
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
         React.useState(false);

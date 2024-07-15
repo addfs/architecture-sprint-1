@@ -6,7 +6,7 @@ ENV NODE_ENV development
 WORKDIR /app
 
 COPY package.json /app
-RUN yarn install
+COPY yarn.lock /app
 
 COPY . /app
 

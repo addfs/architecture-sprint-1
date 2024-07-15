@@ -79,7 +79,7 @@ services:
       PUBLIC_URL: /
     volumes:
       - ./frontend/microfrontend/user_profile_app:/app
-
+      - ./frontend/microfrontend/user_profile_app/node_modules:/app/node_modules
 
   frontend-auth-app:
     build:
@@ -94,3 +94,4 @@ services:
       PUBLIC_URL: /
     volumes:
       - ./frontend/microfrontend/auth_app:/app
+      - ./frontend/microfrontend/auth_app/node_modules:/app/node_modules
