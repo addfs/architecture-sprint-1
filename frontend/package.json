@@ -1,46 +1,21 @@
 {
-  "name": "web_canonicals_ru",
-  "version": "0.1.0",
+  "name": "web-plus_canonicals",
+  "version": "1.0.0",
+  "description": "",
   "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.3",
-    "web-vitals": "^1.0.1"
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
   },
+  "main": "index.js",
   "scripts": {
-    "start": "react-scripts --openssl-legacy-provider start",
-    "build": "react-scripts --openssl-legacy-provider build",
-    "test": "react-scripts test",
-    "test:microfrontend": "npx jest ./index.spec.js",
-    "eject": "react-scripts eject"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:mesto_app": "yarn workspace mesto_app start",
+    "start:user_profile_app": "yarn workspace user_profile_app start",
+    "start": "yarn workspaces run"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "devDependencies": {
-    "@playwright/test": "^1.45.0",
-    "@types/node": "^20.14.9",
-    "dotenv": "^16.0.2",
-    "wait-port": "^1.1.0"
-  }
+  "author": "",
+  "license": "ISC"
 }
+
