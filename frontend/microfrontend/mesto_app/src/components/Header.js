@@ -12,7 +12,7 @@ function Header({email}) {
             <img src={logoPath} alt="Логотип проекта Mesto" className="logo header__logo"/>
 
             <React.Suspense fallback={'Загрузка ...'}>
-                <HeaderAuth email={email}  />
+                <HeaderAuth email={email}/>
             </React.Suspense>
         </header>
     )

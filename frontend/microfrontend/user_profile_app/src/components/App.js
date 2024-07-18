@@ -1,10 +1,11 @@
 import React from "react";
+
 const Shell = React.lazy(() => import('mesto/App'));
 
 function App() {
     return (
         <React.Suspense fallback={<div>Загрузка ... </div>}>
-            <Shell />
+            <Shell/>
         </React.Suspense>
     );
 }

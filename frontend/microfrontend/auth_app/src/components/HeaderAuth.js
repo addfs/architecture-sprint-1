@@ -2,10 +2,10 @@ import React from 'react';
 import {Link, Route} from 'react-router-dom';
 
 export default function HeaderAuth({email}) {
-    function handleSignOut(){
+    function handleSignOut() {
         localStorage.removeItem("jwt");
         const customEvent = new CustomEvent(
-            'userLogged', {detail: { email: '', isLoggedIn: false } }
+            'userLogged', {detail: {email: '', isLoggedIn: false}}
         );
         window.dispatchEvent(customEvent)
     }

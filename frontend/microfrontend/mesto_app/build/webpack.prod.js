@@ -1,4 +1,4 @@
-const { DefinePlugin } = require("webpack");
+const {DefinePlugin} = require("webpack");
 
 module.exports = {
     mode: "production",

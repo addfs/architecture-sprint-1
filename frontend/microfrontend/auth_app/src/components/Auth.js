@@ -18,7 +18,7 @@ function Auth() {
                 .checkToken(token)
                 .then((res) => {
                     const customEvent = new CustomEvent(
-                        'userLogged', {detail: { email: res.data.email, isLoggedIn: true } }
+                        'userLogged', {detail: {email: res.data.email, isLoggedIn: true}}
                     );
                     window.dispatchEvent(customEvent)
 
@@ -51,7 +51,7 @@ function Auth() {
             .login(email, password)
             .then((res) => {
                 const customEvent = new CustomEvent(
-                    'userLogged', {detail: { email: email, isLoggedIn: true } }
+                    'userLogged', {detail: {email: email, isLoggedIn: true}}
                 );
                 window.dispatchEvent(customEvent)
                 history.push("/");

@@ -1,30 +1,11 @@
 import React from 'react';
 
-import {useHistory} from 'react-router-dom';
-import * as auth from "../utils/auth.js";
 import '../blocks/login/login.css';
 import '../blocks/auth-form/auth-form.css';
 
 function Login({onLogin}) {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
-    const history = useHistory();
-
-/*    function onLogin({email, password}) {
-        auth
-            .login(email, password)
-            .then((res) => {
-                const customEvent = new CustomEvent(
-                    'userLogged', {detail: { email: email, isLoggedIn: true } }
-                );
-                window.dispatchEvent(customEvent)
-                history.push("/");
-            })
-            .catch((err) => {
-                // setTooltipStatus("fail");
-                // setIsInfoToolTipOpen(true);
-            });
-    }*/
 
     function handleSubmit(e) {
         e.preventDefault();

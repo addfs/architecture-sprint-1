@@ -28,7 +28,7 @@ export default function Profile({onAddPlace}) {
             .setUserAvatar(avatarUpdate)
             .then((newUserData) => {
                 const customEvent = new CustomEvent(
-                    'userChanged', {detail: newUserData }
+                    'userChanged', {detail: newUserData}
                 );
                 window.dispatchEvent(customEvent)
                 setIsEditAvatarPopupOpen(false)
@@ -41,7 +41,7 @@ export default function Profile({onAddPlace}) {
             .setUserInfo(userUpdate)
             .then((newUserData) => {
                 const customEvent = new CustomEvent(
-                    'userChanged', {detail: newUserData }
+                    'userChanged', {detail: newUserData}
                 );
                 window.dispatchEvent(customEvent)
                 setIsEditProfilePopupOpen(false)

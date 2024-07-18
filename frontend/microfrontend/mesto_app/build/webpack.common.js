@@ -1,7 +1,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const { ModuleFederationPlugin } = require("webpack").container;
+const {CleanWebpackPlugin} = require("clean-webpack-plugin");
+const {ModuleFederationPlugin} = require("webpack").container;
 const HotModuleReplacementPlugin = require("webpack").HotModuleReplacementPlugin;
 const deps = require("../package.json").dependencies;
 

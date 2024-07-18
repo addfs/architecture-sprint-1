@@ -22,7 +22,7 @@ class ProfileApi {
             .then(res => res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`));
     }
 
-    setUserInfo({ name, about }) {
+    setUserInfo({name, about}) {
         return fetch(`${this._address}/${this._groupId}/users/me`, {
             method: 'PATCH',
             headers: {
